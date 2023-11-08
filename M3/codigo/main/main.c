@@ -19,73 +19,41 @@ void app_main(void)
     int pessoasDentro = 0; // Variável para contar pessoas
     int ACO = 0;
     while(1) {
-        // Ler os sensores digitais
-        
-        
-
-        // Verificar a sequência de ativação
-        if (ACO <0){
-            ACO ++;
-        }else{
-            ACO = 0;
-            int sensorValue1 = gpio_get_level(SENSOR_PIN_1);
-            int sensorValue2 = gpio_get_level(SENSOR_PIN_2);
-            if(!sensorValue1) {
-                bool ativo = true;
-                while(ativo == true){
-                    sensorValue1 = gpio_get_level(SENSOR_PIN_1);
-                    if(sensorValue1){
-                        int ativo2 = 5;
-                        while(ativo2 > 0 ){
-                            sensorValue2 = gpio_get_level(SENSOR_PIN_2);
-                            ativo2--;
-                            if(!sensorValue2){
-                                pessoasDentro++; // Alguém entrou
-                                ativo2 = 0;
-                                ativo = false;
-                                break;
-                            }
-                        }
-
-                    }
-                    
-                }
-            } else if(!sensorValue2) {
-                if(pessoasDentro>0){
-                    bool ativo = true;
-                    while(ativo == true){
-                        sensorValue2 = gpio_get_level(SENSOR_PIN_2);
-                        if(sensorValue2){
-                            int ativo2 = 5;
-                            while(ativo2 > 0 ){
-                                sensorValue1 = gpio_get_level(SENSOR_PIN_1);
-                                ativo2--;
-                                if(!sensorValue1){
-                                    pessoasDentro--; // Alguém saiu
-                                    ativo2 = 0;
-                                    ativo = false;
-                                    break;
-                                }
-                            }
-
-                        }
-                        
-                    }
-                }
-            }
-        
+        //le o sinal do sensor invertido pelo ja que o sensor e normalmente ativo
+        //se for 1 tem obstaculo se for 0 ncao tem
+        int sensorValue1 = !gpio_get_level(SENSOR_PIN_1);
+        int sensorValue2 = !gpio_get_level(SENSOR_PIN_2);
+        /*logica 
+            o sensor 1 aciona primeiro e posteriomente o sensor 2, onse o sensor 1 pode ou nao permasecer ativo 
+            entrada
+            caso 1:
+            __|¯¯¯¯|______________
+            ___________|¯¯¯¯|_____
+            nesse caso vai ser apliado o sinal ate o senal 2 ser ativo 
+            __|¯¯¯¯¯¯¯¯|__________
+            ___________|¯¯¯¯|_____
+            caso 2:
+            __|¯¯¯¯¯¯¯|___________
+            ______|¯¯¯¯¯¯¯|_______
+            caso 3: 
+            __|¯¯¯¯¯¯¯|___________
+            __|¯¯¯¯¯¯¯¯¯|_________
+            
+            a analogo considerase como saida 
+        */
+        if (sensorValue1){ //se o senor um acionado 
+            
         }
-        // Limpar a tela
-        printf("\033[2J\033[H");
+    }
+    // Limpar a tela
+    printf("\033[2J\033[H");
 
-        // Imprimir o número de pessoas
-        printf("Pessoas dentro: %d\n", pessoasDentro);
+    // Imprimir o número de pessoas
+    printf("Pessoas dentro: %d\n", pessoasDentro);
 
-        // Atualizar os últimos valores dos sensores
+    // Atualizar os últimos valores dos sensores
         
 
 
-        //vTaskDelay(pdMS_TO_TICKS(100)); // atraso de 0,001 segundo
-    }
-    
+    //vTaskDelay(pdMS_TO_TICKS(100)); // atraso de 0,001 segund
 }

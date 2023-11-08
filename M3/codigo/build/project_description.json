@@ -1,7 +1,7 @@
 {
     "version":            "1",
     "project_name":       "codigo",
-    "project_version":    "47852ea",
+    "project_version":    "c9f0e5e-dirty",
     "project_path":       "C:/Users/jorge/Documents/Documentos/oitavo_perido/PSE/M3/codigo",
     "idf_path":           "C:/Users/jorge/esp/esp-idf",
     "build_dir":          "C:/Users/jorge/Documents/Documentos/oitavo_perido/PSE/M3/codigo/build",
@@ -790,7 +790,7 @@
             "managed_reqs": [],
             "managed_priv_reqs": [],
             "file": "C:/Users/jorge/Documents/Documentos/oitavo_perido/PSE/M3/codigo/build/esp-idf/main/libmain.a",
-            "sources": [ "C:/Users/jorge/Documents/Documentos/oitavo_perido/PSE/M3/codigo/main/main.c" ],
+            "sources": [ "C:/Users/jorge/Documents/Documentos/oitavo_perido/PSE/M3/codigo/main/sinal_sensor.c" ],
             "include_dirs": [ "." ]
         },
         "mbedtls": {
