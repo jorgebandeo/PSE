@@ -1,59 +1,113 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
-#include <driver/gpio.h>
-#include "sdkconfig.h"
+#include "driver/gpio.h"
 
-#define SENSOR_PIN_1 GPIO_NUM_25
-#define SENSOR_PIN_2 GPIO_NUM_33
+#define SENSOR1_PIN GPIO_NUM_34
+#define SENSOR2_PIN GPIO_NUM_33
+#define SENSOR3_PIN GPIO_NUM_32
+#define SENSOR4_PIN GPIO_NUM_35
 
-void app_main(void)
-{
-    // Configurar os pinos GPIO
-    esp_rom_gpio_pad_select_gpio(SENSOR_PIN_1);
-    gpio_set_direction(SENSOR_PIN_1, GPIO_MODE_INPUT);
-    esp_rom_gpio_pad_select_gpio(SENSOR_PIN_2);
-    gpio_set_direction(SENSOR_PIN_2, GPIO_MODE_INPUT);
+#define LUZ GPIO_NUM_2
+int var = 2;
+bool sensor1 = false;
+bool sensor2 = false;
+bool sensor3 = false;
+bool sensor4 = false;
+int quarto1 = 0;
 
-
-    int pessoasDentro = 0; // Variável para contar pessoas
-    int ACO = 0;
-    while(1) {
-        //le o sinal do sensor invertido pelo ja que o sensor e normalmente ativo
-        //se for 1 tem obstaculo se for 0 ncao tem
-        int sensorValue1 = !gpio_get_level(SENSOR_PIN_1);
-        int sensorValue2 = !gpio_get_level(SENSOR_PIN_2);
-        /*logica 
-            o sensor 1 aciona primeiro e posteriomente o sensor 2, onse o sensor 1 pode ou nao permasecer ativo 
-            entrada
-            caso 1:
-            __|¯¯¯¯|______________
-            ___________|¯¯¯¯|_____
-            nesse caso vai ser apliado o sinal ate o senal 2 ser ativo 
-            __|¯¯¯¯¯¯¯¯|__________
-            ___________|¯¯¯¯|_____
-            caso 2:
-            __|¯¯¯¯¯¯¯|___________
-            ______|¯¯¯¯¯¯¯|_______
-            caso 3: 
-            __|¯¯¯¯¯¯¯|___________
-            __|¯¯¯¯¯¯¯¯¯|_________
-            
-            a analogo considerase como saida 
-        */
-        if (sensorValue1){ //se o senor um acionado 
-            
-        }
+static void sensor1_task(void *pvParameters) {
+    while (1){
+        sensor1 = !gpio_get_level(SENSOR1_PIN);
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
-    // Limpar a tela
+    
+    
+}
+
+static void sensor2_task(void *pvParameters) {
+    
+    while (1){
+        sensor2 = !gpio_get_level(SENSOR2_PIN);
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+
+}
+
+static void logic_task(void *pvParameters) {
+    bool anterior1 = false;
+    bool anterior2 = false;
+    int timer = var;
+    bool arc = false;
+    while (1){
+        if(arc){
+            if(!sensor1&&!sensor2){
+                arc = false;
+            }
+        }else if(anterior1){
+            if(timer <= 0){
+                anterior1 =false;
+                timer = var;
+            }else if(sensor2){
+                anterior1 =false;
+                quarto1 -= 1;
+                arc = true;
+            }
+            timer -= 1;
+        }else if(anterior2){
+            if(timer <= 0){
+                anterior2 =false;
+                timer = var;
+            }else if(sensor1){
+                anterior2 =false;
+                quarto1 += 1;
+                arc = true;
+            }
+            timer -= 1;
+        }else if (sensor1){ // saida de pessoas logica
+            if(quarto1 > 0){
+                anterior1 = true;
+            }
+        }else if (sensor2){ // entra de pessoas logica
+            anterior2 = true;
+        }
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+    
+}
+
+static void luzer_tesk(void *pvParameters){
     printf("\033[2J\033[H");
+    while (1){
+        if(quarto1>0){
+            gpio_set_level(LUZ, 1);
+        }else{
+            gpio_set_level(LUZ, 0);
+        }
+        printf("\e[1;1H  %d \n", quarto1);
+         printf(" %d \n", sensor1);
+         printf(" %d \n", sensor2);
+        vTaskDelay(pdMS_TO_TICKS(20));
+    }
+}
 
-    // Imprimir o número de pessoas
-    printf("Pessoas dentro: %d\n", pessoasDentro);
+void app_main() {
 
-    // Atualizar os últimos valores dos sensores
-        
+    // Configurar os pinos GPIO
+    esp_rom_gpio_pad_select_gpio(SENSOR1_PIN);
+    gpio_set_direction(SENSOR1_PIN, GPIO_MODE_INPUT);
+    esp_rom_gpio_pad_select_gpio(SENSOR2_PIN);
+    gpio_set_direction(SENSOR2_PIN, GPIO_MODE_INPUT);
+    esp_rom_gpio_pad_select_gpio(SENSOR3_PIN);
+    gpio_set_direction(SENSOR3_PIN, GPIO_MODE_INPUT);
+    esp_rom_gpio_pad_select_gpio(SENSOR4_PIN);
+    gpio_set_direction(SENSOR4_PIN, GPIO_MODE_INPUT);
+    esp_rom_gpio_pad_select_gpio(LUZ);
+    gpio_set_direction(LUZ,  GPIO_MODE_OUTPUT);
 
-
-    //vTaskDelay(pdMS_TO_TICKS(100)); // atraso de 0,001 segund
+    xTaskCreate(sensor1_task, "Sensor 1 Task", 2048, NULL, 5, NULL);
+    xTaskCreate(sensor2_task, "Sensor 2 Task", 2048, NULL, 5, NULL);
+    xTaskCreate(logic_task, "Plotter Task", 2048, NULL, 5, NULL);
+    xTaskCreate( luzer_tesk, "luz Task", 2048, NULL, 5, NULL);
 }

@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/jorge/Documents/Documentos/oitavo_perido/PSE/M3/codigo/main
+# Install script for directory: C:/Users/jorge/Documents/Documentos/oitavo_perido/PSE/PSE/M3/codigo/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

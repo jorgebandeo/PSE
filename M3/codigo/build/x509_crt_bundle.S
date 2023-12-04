@@ -1,4 +1,4 @@
-/* * Data converted from C:/Users/jorge/Documents/Documentos/oitavo_perido/PSE/M3/codigo/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from C:/Users/jorge/Documents/Documentos/oitavo_perido/PSE/PSE/M3/codigo/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 .section .rodata.embedded
