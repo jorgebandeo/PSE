@@ -1,0 +1,6 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "idf.adapterTargetName": "esp32",
+    "idf.portWin": "COM15",
+    "idf.flashType": "UART"
+}
