@@ -1,0 +1,65 @@
+{
+  "$schema": "https://jorgebandeo.github.io/Portfolio/schema/project-v1.schema.json",
+  "schemaVersion": 1,
+  "project": {
+    "id": "dog-washer-pse",
+    "name": "Máquina de Lavar Cachorros",
+    "subtitle": "Protótipo embarcado para controle de lavagem, temperatura e acionamentos",
+    "date": "2023-10",
+    "status": "prototype"
+  },
+  "categories": ["hardware", "software"],
+  "technologies": ["ESP32", "C", "Bluetooth", "DHT11", "Relés", "Sensores"],
+  "summary": "Protótipo acadêmico de sistema embarcado aplicado a uma máquina de lavar cachorros, com controle de bomba, aquecimento, iluminação e leitura de sensores. O projeto utiliza ESP32 e comunicação Bluetooth para supervisão e comandos manuais.",
+  "development": [
+    {
+      "title": "Controle embarcado",
+      "text": "Firmware em C para ESP32 responsável pela leitura dos sensores e pelo acionamento dos periféricos do protótipo."
+    },
+    {
+      "title": "Monitoramento",
+      "text": "Leitura de temperatura, nível de água e luminosidade, com envio do estado do sistema por Bluetooth."
+    },
+    {
+      "title": "Acionamentos",
+      "text": "Controle de bomba, aquecedor e iluminação por relés, incluindo comandos manuais recebidos via Bluetooth."
+    }
+  ],
+  "highlights": [
+    "Controle da bomba de água",
+    "Controle do aquecedor",
+    "Leitura de temperatura com DHT11",
+    "Leitura de nível de água",
+    "Leitura de luminosidade",
+    "Comandos e telemetria via Bluetooth"
+  ],
+  "media": {
+    "cover": "portfolio/media/prototipo-01.jpg",
+    "gallery": [
+      {
+        "type": "image",
+        "src": "portfolio/media/prototipo-01.jpg",
+        "caption": "Protótipo da máquina"
+      },
+      {
+        "type": "image",
+        "src": "portfolio/media/montagem-01.jpg",
+        "caption": "Montagem e integração eletrônica"
+      },
+      {
+        "type": "video",
+        "src": "portfolio/media/teste-funcionamento.mp4",
+        "caption": "Teste de funcionamento"
+      }
+    ]
+  },
+  "links": {
+    "repository": "https://github.com/jorgebandeo/PSE",
+    "source": "M2/main.c"
+  },
+  "portfolio": {
+    "visible": true,
+    "featured": true,
+    "order": 10
+  }
+}
