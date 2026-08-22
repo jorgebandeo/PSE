@@ -1,33 +1,22 @@
 {
-  "$schema": "https://jorgebandeo.github.io/Portfolio/schema/project-v1.schema.json",
-  "schemaVersion": 1,
-  "project": {
-    "id": "pse-smart-occupancy",
-    "name": "Sistema Embarcado de Ocupação e Iluminação Inteligente",
-    "subtitle": "Contagem de pessoas por sensores, controle de iluminação e comunicação entre ESP32 via MQTT",
-    "date": "2023-10",
-    "status": "prototype"
-  },
-  "categories": ["hardware", "software", "embedded"],
-  "technologies": ["ESP32", "C", "ESP-IDF", "FreeRTOS", "MQTT", "Wi-Fi", "LDR", "GPIO"],
-  "summary": "Projeto acadêmico de sistemas embarcados para detectar o fluxo de entrada e saída de pessoas em ambientes, manter a contagem de ocupação e controlar a iluminação conforme presença e luminosidade. A evolução do projeto inclui firmware concorrente em FreeRTOS, clientes ESP32 e comunicação MQTT com uma implementação de broker local.",
-  "development": [
-    {"title":"Detecção de fluxo","text":"Dois sensores são lidos em tarefas independentes e a sequência de acionamento é usada para distinguir entrada de saída, incrementando ou decrementando a ocupação do ambiente."},
-    {"title":"Iluminação automática","text":"A ocupação é combinada com a leitura analógica de luminosidade para comandar a saída de iluminação e publicar o estado do ambiente."},
-    {"title":"Comunicação distribuída","text":"A etapa M3 evolui para ESP-IDF e MQTT, com clientes ESP32, publicação de estados e experimentação com broker MQTT executado em ESP32."}
+  "$schema":"https://jorgebandeo.github.io/Portfolio/schema/project-v1.schema.json",
+  "schemaVersion":1,
+  "project":{"id":"pse-embedded-projects","name":"Projetos de Sistemas Embarcados — PSE","subtitle":"Evolução acadêmica em ESP32: automação sensoriada, controle de atuadores e sistemas distribuídos via MQTT","status":"academic"},
+  "categories":["hardware","software","embedded"],
+  "technologies":["ESP32","C/C++","Arduino Framework","ESP-IDF","FreeRTOS","Bluetooth","MQTT","Wi-Fi","Sensores","Relés"],
+  "summary":"Repositório de Projetos de Sistemas Embarcados que reúne pelo menos duas implementações distintas em ESP32. A etapa M2 desenvolve um sistema de automação com leitura de temperatura, nível de água e luminosidade, controle de bomba, aquecedor e iluminação e supervisão por Bluetooth. A etapa M3 evolui para um sistema distribuído entre ESP32s, usando FreeRTOS, Wi-Fi e MQTT para detectar fluxo de pessoas, manter ocupação de ambientes e automatizar iluminação.",
+  "development":[
+    {"title":"M2 — automação com sensores e atuadores","text":"Firmware no ecossistema Arduino para ESP32 integra DHT11, sensor de nível de água, LDR, dois relés e LED, oferecendo modos automáticos e comandos manuais via BluetoothSerial."},
+    {"title":"M3 — ambientes inteligentes distribuídos","text":"A fase seguinte usa ESP-IDF/FreeRTOS, sensores de passagem, ADC para luminosidade e comunicação MQTT para distribuir estados entre módulos ESP32."},
+    {"title":"Progressão arquitetural","text":"O conjunto evidencia a passagem de um controlador embarcado monolítico conectado por Bluetooth para uma arquitetura concorrente e distribuída em rede."}
   ],
-  "highlights": ["Contagem bidirecional de pessoas", "Tarefas concorrentes com FreeRTOS", "Controle de iluminação por ocupação", "Leitura de luminosidade via ADC", "Comunicação MQTT", "Arquitetura com múltiplos ESP32"],
-  "caseStudy": {
-    "title": "Da leitura de sensores a um sistema distribuído de ambientes inteligentes",
-    "intro": "O repositório reúne etapas de desenvolvimento de um sistema embarcado voltado a ambientes/quartos. O diagrama DSH modela portas com sensores de entrada e saída e estados de ocupação para diferentes quartos. O firmware implementa essa lógica e posteriormente distribui a comunicação entre dispositivos ESP32.",
-    "objective": "Determinar automaticamente se uma pessoa entrou ou saiu de um ambiente, manter uma contagem coerente de ocupantes e usar essa informação para controlar iluminação, acrescentando comunicação em rede para compartilhar estados entre módulos.",
-    "implementation": "Na etapa embarcada, tarefas independentes fazem polling dos sensores. Uma tarefa de lógica compara estados atuais e anteriores para reconhecer a ordem de passagem pelos sensores e atualizar a variável de ocupação. Outra tarefa lê o LDR pelo ADC, aciona a iluminação e publica mensagens MQTT. A evolução M3 usa ESP-IDF, Wi-Fi e clientes MQTT; o repositório também contém uma implementação de broker MQTT local baseada em Mongoose para ESP32.",
-    "architecture": "Sensores de passagem → tarefas FreeRTOS → lógica de direção/ocupação → controle de iluminação + leitura LDR → publicação MQTT. Em M3, módulos cliente e servidor/broker permitem distribuir a informação entre ESP32s e testar topologias locais de automação.",
-    "progress": "O repositório preserva diferentes iterações (M2 e M3), incluindo versões locais de cliente/servidor, testes de MQTT e um diagrama de estados/fluxo. É um protótipo acadêmico funcional e evolutivo, não um produto final de automação predial.",
-    "materials": ["ESP32", "Sensores digitais de passagem/presença", "Sensor de luminosidade LDR", "LED/saída de iluminação", "ESP-IDF", "FreeRTOS", "MQTT", "Mongoose networking library", "Wi-Fi"],
-    "results": ["Lógica bidirecional para incrementar e decrementar ocupação", "Acionamento de iluminação condicionado à presença", "Leitura percentual aproximada de luminosidade", "Publicação de estado via MQTT", "Experimentação com broker MQTT executado no próprio ESP32", "Separação do firmware em tarefas concorrentes"]
-  },
-  "media": {"gallery": []},
-  "links": {"repository": "https://github.com/jorgebandeo/PSE", "source": "M3/ESP_CLiente_local/main/app_main.c"},
-  "portfolio": {"visible": true, "featured": true, "order": 10}
+  "highlights":["Integração de múltiplos sensores no ESP32","Controle de bomba e aquecedor por relés","Supervisão Bluetooth","FreeRTOS e tarefas concorrentes","Detecção bidirecional de ocupação","Comunicação MQTT entre ESP32","Experimentação com broker local"],
+  "caseStudy":{"title":"Evolução de automação embarcada local para arquitetura distribuída","intro":"As etapas do repositório representam problemas distintos, mas compartilham a mesma base de engenharia embarcada: adquirir sinais físicos, tomar decisões de controle, acionar saídas e fornecer supervisão ao usuário ou a outros dispositivos.","objective":"Explorar integração hardware/software em ESP32 por meio de sensores, atuadores, comunicação sem fio e concorrência, evoluindo de um protótipo de automação local para uma arquitetura de dispositivos conectados.","implementation":"O M2 utiliza o framework Arduino e BluetoothSerial. Leituras de temperatura, nível de água e luminosidade alimentam regras de controle para relés e LED, enquanto comandos Bluetooth permitem sobrescrever estados. No M3, a implementação passa para ESP-IDF, tarefas FreeRTOS e MQTT; sensores de passagem alimentam uma máquina de estados que identifica entrada/saída e atualiza a ocupação, enquanto outros módulos publicam e recebem informações pela rede.","architecture":"M2: sensores → loop de controle → regras automáticas/comandos Bluetooth → relés e iluminação. M3: sensores → tarefas FreeRTOS → lógica de direção/ocupação → automação de iluminação → MQTT/Wi-Fi → outros ESP32s ou broker local.","progress":"O repositório preserva ambas as etapas e diferentes variantes de cliente/servidor do M3. Isso permite observar a evolução do mesmo eixo acadêmico de sistemas embarcados sem confundir os dois projetos em uma única aplicação.","materials":["ESP32","DHT11","Sensor de nível de água","LDR","Relés","LED/iluminação","BluetoothSerial","ESP-IDF","FreeRTOS","MQTT","Wi-Fi","Mongoose networking library"],"results":["Aquisição e telemetria de múltiplos sensores","Controle automático e manual de bomba/aquecimento/iluminação","Comunicação Bluetooth no protótipo M2","Detecção de entrada e saída no M3","Contagem de ocupação e controle de iluminação","Publicação de estados por MQTT","Teste de broker MQTT executado em ESP32"]},
+  "subprojects":[
+    {"name":"M2 — Controlador de Automação com Bluetooth","path":"M2","summary":"Protótipo embarcado em ESP32 que combina temperatura, nível de água e luminosidade com controle de bomba, aquecedor e iluminação. O sistema transmite telemetria e recebe comandos manuais por Bluetooth.","details":["DHT11 mede a temperatura ambiente","Entrada analógica monitora o nível de água","LDR monitora luminosidade","Relé controla o aquecedor e outro relé controla a bomba","LED representa a saída de iluminação","Comandos Bluetooth alternam comando geral, luz, bomba e aquecedor","Regras automáticas usam temperatura e luminosidade como condições de acionamento"],"technologies":["ESP32","Arduino","DHT11","Bluetooth","LDR","Relés","Sensores"]},
+    {"name":"M3 — Sistema Distribuído de Ocupação e Iluminação","path":"M3","summary":"Arquitetura com múltiplos ESP32s para reconhecer fluxo de pessoas, manter a ocupação de ambientes e comunicar estados por MQTT, incluindo variantes de cliente e servidor/broker local.","details":["Dois sensores permitem inferir a direção da passagem","Tarefas FreeRTOS separam aquisição e lógica","Ocupação é incrementada ou decrementada conforme a sequência dos sensores","Luminosidade via ADC participa da decisão de iluminação","Clientes ESP32 publicam estados por MQTT","Versões locais experimentam comunicação e broker executado no próprio ESP32"],"technologies":["ESP32","ESP-IDF","FreeRTOS","MQTT","Wi-Fi","ADC","GPIO"]}
+  ],
+  "media":{"gallery":[]},
+  "links":{"repository":"https://github.com/jorgebandeo/PSE"},
+  "portfolio":{"visible":true,"featured":true,"order":10}
 }
